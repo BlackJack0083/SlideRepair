@@ -41,7 +41,6 @@ scripts/
   run_slide_review_eval.py
   analyze_slide_review_results.py
 examples/benchmark/        9 clean slides and 61 corrupted cases
-tests/                     Method and evaluation unit tests
 ```
 
 Dataset construction, corruption generation, and oracle-output ablation code
@@ -116,12 +115,3 @@ uv run python scripts/analyze_slide_review_results.py \
 The evaluator reports error-category and fine-grained issue detection,
 stage-level accuracy, content repair accuracy, and end-to-end slide repair
 success rate.
-
-## Tests
-
-```bash
-uv run python -m unittest discover -s tests -p "test_*.py"
-```
-
-The unit tests use model and database substitutes where appropriate and do not
-require access to the full benchmark.
