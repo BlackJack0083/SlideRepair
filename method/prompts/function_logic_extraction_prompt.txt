@@ -1,0 +1,238 @@
+请执行 Function Logic Extraction 任务。
+
+输入是一个 JSON 对象：
+- `table_caption`: chart/table 的 caption 文本。
+- `table_data`: 从可见 chart/table CSV 解析出的二维数据，格式为 `List[Dict]`。
+
+目标：从 `table_caption` 和 `table_data` 中恢复可执行的表格计算逻辑。
+不要验证对错，不要判断 slide 是否有错误。
+
+只输出合法 JSON 对象，必须符合 `TableAnalysisConfig`：
+
+{
+  "table_type": "field-constraint",
+  "dimensions": [
+    {
+      "source_col": "date_code",
+      "target_col": "year",
+      "method": "period",
+      "time_granularity": "year"
+    }
+  ],
+  "metrics": [
+    {
+      "name": "Ttl Salable Area",
+      "source_col": "dim_area",
+      "agg_func": "sum",
+      "filter_condition": {"supply_sets": 1}
+    }
+  ],
+  "crosstab_row": null,
+  "crosstab_col": null
+}
+
+## 1. Table Type
+
+`table_type` 只能是：
+- `field-constraint`
+- `constraint-field`
+- `cross-constraint`
+
+判断时必须看 `table_data` 的 dict keys，不要被 values 误导。
+
+- `field-constraint`: keys 是字段名，时间/区间等约束出现在 values 中。
+  例：`{"year": "2020", "Supply Count": "10"}`。
+
+- `constraint-field`: keys 中包含具体年份、月份或约束值，每行通常是一个指标。
+  例：`{"metric": "Supply Count", "2020": "10", "2021": "12"}`。
+
+- `cross-constraint`: 行头和列表头都是约束条件，交叉单元格是统计值。
+  例：`{"price_area": "0.0-0.75 M", "0-15m²": "1256"}`。
+
+## 2. Dimensions
+
+`dimensions` 表示表格的行/列约束维度。
+
+常见映射：
+- 年度：`{"source_col": "date_code", "target_col": "year", "method": "period", "time_granularity": "year"}`
+- 月度：`{"source_col": "date_code", "target_col": "month", "method": "period", "time_granularity": "month"}`
+- 面积段：`{"source_col": "dim_area", "target_col": "area_range", "method": "range", "step": 20, "format_str": "{}-{}m²"}`
+- 总价段：`{"source_col": "dim_price", "target_col": "price_range", "method": "range", "step": 0.75, "format_str": "{}-{}M"}`
+
+规则：
+- `source_col` 表示数据库原始列；`target_col` 表示重算后用于展示的派生列。
+- 不要把 visible table/chart 中的展示列名当成数据库 `source_col`。
+- range 维度只需要抽取可见分箱步长 `step` 和标签模板 `format_str`。
+- `total` 行或列不是维度边界。
+
+## 3. Metrics
+
+`metrics[].name` 必须原样保留可见指标名：
+- 输入 `supply_counts`，输出仍是 `supply_counts`。
+- 输入 `Trans. Units (Sets)`，输出仍是 `Trans. Units (Sets)`。
+- 禁止改写大小写、空格、缩写或下划线。
+
+`source_col` 只能使用：
+- `supply_sets`
+- `trade_sets`
+- `dim_area`
+- `dim_price`
+- `dim_unit_price`
+
+## 4. Metric Mapping Rules
+
+按优先级判断 metric；命中高优先级后不要被低优先级覆盖。
+
+### Priority 0: Distribution Table
+
+如果维度是 `area_range` 或 `price_range`，且指标是 Count/Stats/Dist/Distribution/Sets/Units/Num/Frequency：
+- 供应侧计数：`source_col="supply_sets"`, `agg_func="count"`, `filter_condition={"supply_sets": 1}`
+- 成交侧计数：`source_col="trade_sets"`, `agg_func="count"`, `filter_condition={"trade_sets": 1}`
+- 中性分布指标如 `Area Dist.`、`Area Rng Stats`、`Price Dist.` 默认成交侧。
+
+注意：分布表的分箱字段已经在 `dimensions` 中表达，所以 metric 不要用 `dim_area` 或 `dim_price` 来做 count。
+
+### Priority A: Unit Price
+
+关键词：`Unit Price`, `Price/m²`, `Avg Price`, `House Price`, `/m² Sales`, `Unit Area Price`
+
+输出：
+- `source_col="dim_unit_price"`
+- `agg_func="mean"`
+- `filter_condition={"trade_sets": 1}`
+
+### Priority B: Counts / Sets / Volume
+
+关键词：`Count`, `Sets`, `Units`, `Num`, `Frequency`, `Nos`, `Volume`, `Vol`
+
+规则：
+- 如果同时包含 `Area`, `Sq.m`, `m²`，转 Priority C。
+- Supply/Launch/New/Listing 语境 -> `supply_sets`
+- Trade/Trans/Transaction/Sales/Sold/Deal/Delivery/Deliv 语境 -> `trade_sets`
+- 中性 `Volume` 默认 `trade_sets`
+
+输出：
+- `agg_func="count"`
+- `filter_condition` 与 `source_col` 一致。
+
+### Priority C: Area
+
+关键词：`Area`, `Sq.m`, `m²`, `Size`, `Space`, `Salable Area`, `Usable Area`, `Trade Area`, `Supply Area`
+
+规则：
+- Supply/New/Launch/Salable 语境 -> `filter_condition={"supply_sets": 1}`
+- Trade/Trans/Sales/Sold/Delivery/Deliv/Usable/Actual 语境 -> `filter_condition={"trade_sets": 1}`
+- 中性面积：如果 caption 只包含 Supply 且不包含 Trade/Transaction/Sales，则供应侧；否则默认成交侧。
+
+输出：
+- `source_col="dim_area"`
+- `agg_func="sum"`
+
+### Priority D: Total Price / Amount
+
+关键词：`Total Price`, `Amount`, `Value`, `Revenue`
+
+输出：
+- `source_col="dim_price"`
+- `agg_func="sum"`
+- 中性金额默认成交侧。
+
+## 5. Cross Constraint
+
+如果 `table_type` 是 `cross-constraint`：
+- `dimensions` 必须包含两个维度。
+- `crosstab_row` 是行维度的 `target_col`。
+- `crosstab_col` 是列维度的 `target_col`。
+- 通常只输出一个 metric。
+
+## Examples
+
+Input:
+{
+  "table_caption": "Beijing Liangxiang: Historical Supply and Transaction Area Statistics (2020-2024)",
+  "table_data": [
+    {"year": "2020", "Ttl Salable Area": "99069", "Ttl Trade Area": "103807"}
+  ]
+}
+Output:
+{
+  "table_type": "field-constraint",
+  "dimensions": [
+    {"source_col": "date_code", "target_col": "year", "method": "period", "time_granularity": "year"}
+  ],
+  "metrics": [
+    {"name": "Ttl Salable Area", "source_col": "dim_area", "agg_func": "sum", "filter_condition": {"supply_sets": 1}},
+    {"name": "Ttl Trade Area", "source_col": "dim_area", "agg_func": "sum", "filter_condition": {"trade_sets": 1}}
+  ],
+  "crosstab_row": null,
+  "crosstab_col": null
+}
+
+Input:
+{
+  "table_caption": "2020-2022 Supply and Transaction Unit Statistics",
+  "table_data": [
+    {"category": "0-20m²", "Supply Count": "39", "Trans. Count": "0"}
+  ]
+}
+Output:
+{
+  "table_type": "field-constraint",
+  "dimensions": [
+    {"source_col": "dim_area", "target_col": "area_range", "method": "range", "step": 20, "format_str": "{}-{}m²"}
+  ],
+  "metrics": [
+    {"name": "Supply Count", "source_col": "supply_sets", "agg_func": "count", "filter_condition": {"supply_sets": 1}},
+    {"name": "Trans. Count", "source_col": "trade_sets", "agg_func": "count", "filter_condition": {"trade_sets": 1}}
+  ],
+  "crosstab_row": null,
+  "crosstab_col": null
+}
+
+Input:
+{
+  "table_caption": "2021-2023 Beijing Beiqijia Area and Total Price Cross Statistics",
+  "table_data": [
+    {"price_area": "0.0-0.75 M", "0-15m²": "1256", "15-30m²": "668"},
+    {"price_area": "0.75-1.5 M", "0-15m²": "0", "15-30m²": "0"}
+  ]
+}
+Output:
+{
+  "table_type": "cross-constraint",
+  "dimensions": [
+    {"source_col": "dim_price", "target_col": "price_range", "method": "range", "step": 0.75, "format_str": "{}-{}M"},
+    {"source_col": "dim_area", "target_col": "area_range", "method": "range", "step": 15, "format_str": "{}-{}m²"}
+  ],
+  "metrics": [
+    {"name": "Count", "source_col": "dim_price", "agg_func": "count"}
+  ],
+  "crosstab_row": "price_range",
+  "crosstab_col": "area_range"
+}
+
+Input:
+{
+  "table_caption": "Guangzhou Resale House: Historical Delivery Metrics (2020-2024)",
+  "table_data": [
+    {"metric": "Trans. Units (Sets)", "2020": "44", "2021": "71"},
+    {"metric": "Unit House Price", "2020": "40504", "2021": "49719"},
+    {"metric": "Usable Area", "2020": "3871", "2021": "7062"}
+  ]
+}
+Output:
+{
+  "table_type": "constraint-field",
+  "dimensions": [
+    {"source_col": "date_code", "target_col": "year", "method": "period", "time_granularity": "year"}
+  ],
+  "metrics": [
+    {"name": "Trans. Units (Sets)", "source_col": "trade_sets", "agg_func": "count", "filter_condition": {"trade_sets": 1}},
+    {"name": "Unit House Price", "source_col": "dim_unit_price", "agg_func": "mean", "filter_condition": {"trade_sets": 1}},
+    {"name": "Usable Area", "source_col": "dim_area", "agg_func": "sum", "filter_condition": {"trade_sets": 1}}
+  ],
+  "crosstab_row": null,
+  "crosstab_col": null
+}
+
+只输出合法 JSON 对象。
