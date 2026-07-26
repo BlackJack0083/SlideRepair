@@ -1,0 +1,10 @@
+{
+  "feedback_items": [
+    {
+      "error_type": "scope_error",
+      "response": "Please use block=Pinggu District.",
+      "field": "block",
+      "scope_error_type": "conflict"
+    }
+  ]
+}

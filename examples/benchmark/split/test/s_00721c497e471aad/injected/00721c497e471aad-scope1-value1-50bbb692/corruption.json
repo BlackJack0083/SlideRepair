@@ -1,0 +1,43 @@
+{
+  "recipe": [
+    {
+      "family": "scope",
+      "num_errors": 1
+    },
+    {
+      "family": "value",
+      "num_errors": 1
+    }
+  ],
+  "operations": [
+    {
+      "kind": "text_slot_edit",
+      "target": "caption",
+      "source": "caption[0]",
+      "element_id": "3",
+      "field": "city",
+      "slot": "Geo_City_Name",
+      "before": "Shenzhen",
+      "after": "Guangzhou",
+      "mutation_type": "scope_city_unmatch",
+      "scope_error_type": "unmatch",
+      "semantic_slot": "Geo_City_Name",
+      "error_types": [
+        "scope_error"
+      ]
+    },
+    {
+      "kind": "text_slot_edit",
+      "target": "summary",
+      "element_id": "2",
+      "slot": "Metric_Volume_Dominant_Cluster",
+      "before": "339",
+      "after": "322",
+      "mutation_type": "value_summary_slot",
+      "error_types": [
+        "value_error"
+      ]
+    }
+  ],
+  "expected_repair_yaml": "split/test/s_00721c497e471aad/gt/slide.yaml"
+}

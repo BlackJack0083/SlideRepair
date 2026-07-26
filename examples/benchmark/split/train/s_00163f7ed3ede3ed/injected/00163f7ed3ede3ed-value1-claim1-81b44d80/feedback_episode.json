@@ -1,0 +1,9 @@
+{
+  "feedback_items": [
+    {
+      "error_type": "claim_error",
+      "response": "Please describe it as a Bar chart.",
+      "target": "caption"
+    }
+  ]
+}

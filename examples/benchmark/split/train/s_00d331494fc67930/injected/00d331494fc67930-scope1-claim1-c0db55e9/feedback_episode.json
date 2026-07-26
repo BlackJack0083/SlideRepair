@@ -1,0 +1,15 @@
+{
+  "feedback_items": [
+    {
+      "error_type": "scope_error",
+      "response": "Please use block=Nansha Bay.",
+      "field": "block",
+      "scope_error_type": "invalid"
+    },
+    {
+      "error_type": "claim_error",
+      "response": "Please describe it as a Line chart.",
+      "target": "caption"
+    }
+  ]
+}

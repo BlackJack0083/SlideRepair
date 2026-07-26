@@ -1,0 +1,65 @@
+{
+  "recipe": [
+    {
+      "family": "scope",
+      "num_errors": 1
+    },
+    {
+      "family": "value",
+      "num_errors": 1
+    }
+  ],
+  "operations": [
+    {
+      "kind": "text_slot_edit",
+      "target": "summary",
+      "source": "summary",
+      "element_id": "2",
+      "field": "time_range",
+      "slot": "Temporal_Start_Year",
+      "before": "2020",
+      "after": "2025",
+      "mutation_type": "scope_time_range_invalid",
+      "scope_error_type": "invalid",
+      "semantic_slot": "Temporal_Start_Year",
+      "error_types": [
+        "scope_error"
+      ]
+    },
+    {
+      "kind": "text_slot_edit",
+      "target": "caption",
+      "source": "caption[0]",
+      "element_id": "3",
+      "field": "time_range",
+      "slot": "Temporal_Start_Year",
+      "before": "2020",
+      "after": "2025",
+      "mutation_type": "scope_time_range_invalid",
+      "scope_error_type": "invalid",
+      "semantic_slot": "Temporal_Start_Year",
+      "error_types": [
+        "scope_error"
+      ]
+    },
+    {
+      "kind": "data_cell_edit",
+      "target": "table",
+      "element_id": "4",
+      "role": "table",
+      "cell": {
+        "row_index": 4,
+        "row_label": 4,
+        "column_index": 6,
+        "column": "trade_counts(2020)"
+      },
+      "before": 138,
+      "after": 158,
+      "mutation_type": "value_data_cell",
+      "error_types": [
+        "value_error"
+      ]
+    }
+  ],
+  "expected_repair_yaml": "split/val/s_002fe0bd769fbf9a/gt/slide.yaml"
+}

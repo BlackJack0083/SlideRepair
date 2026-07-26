@@ -1,0 +1,10 @@
+{
+  "feedback_items": [
+    {
+      "error_type": "scope_error",
+      "response": "Please use block=Songgang Intelligent Manufacturing Eco-City.",
+      "field": "block",
+      "scope_error_type": "missing"
+    }
+  ]
+}

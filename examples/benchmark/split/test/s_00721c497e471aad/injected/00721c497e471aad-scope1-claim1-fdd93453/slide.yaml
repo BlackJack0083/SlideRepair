@@ -1,0 +1,125 @@
+meta:
+  template_id: T02_Price_Dist_Bar
+slide_filters:
+- connection:
+    table:
+    - shenzhen_new_house
+  select_columns:
+  - dim_price
+  - trade_sets
+  filters:
+    city: Shenzhen
+    block: Xiangmi Lake New Financial Center
+    start_date: '2020-01-01'
+    end_date: '2024-12-31'
+  fun_tool:
+    fun: Price Segment Distribution
+    args:
+      price_range_size: 1
+  sql_query:
+  - SELECT dim_price, trade_sets FROM public.Shenzhen_new_house WHERE city = 'Shenzhen' AND block = 'Xiangmi Lake New Financial Center' AND date_code >= '2020-01-01' AND date_code <= '2024-12-31'
+template_slide:
+  slide_size:
+    width: 19.05
+    height: 14.29
+  elements:
+  - id: '1'
+    type: textBox
+    role: slide-title
+    text: New-House Cross-Structure Analysis
+    layout:
+      x: 0.5
+      y: 1.0
+      width: 18.0
+      height: 1.1
+  - id: '2'
+    type: textBox
+    role: body-text
+    text: Mainstream types concentrate in **≥23M** segments, totaling **339** units.
+    layout:
+      x: 0.5
+      y: 1.8
+      width: 18.0
+      height: 1.7
+    text_binding:
+      kind: summary
+      render:
+        theme_key: New-House Cross-Structure Analysis
+        function_key: Price Segment Distribution
+        variant_idx: 0
+      slots:
+        Seg_Price_Stratum_Dominant:
+          category: value
+          value: ≥23M
+          value_type: string
+        Metric_Volume_Dominant_Cluster:
+          category: value
+          value: '339'
+          value_type: number
+  - id: '3'
+    type: textBox
+    role: caption
+    text: '** Xiangmi Lake New Financial Center** Price Segment Distribution (**2020**-**2024**) (Table)'
+    layout:
+      x: 3.9
+      y: 3.7
+      width: 12.0
+      height: 0.9
+    text_binding:
+      kind: caption
+      render:
+        theme_key: New-House Cross-Structure Analysis
+        function_key: Price Segment Distribution
+        function_index: 0
+        view_label: Bar chart
+      slots:
+        Geo_City_Name:
+          category: scope
+          value: ''
+          value_type: string
+          field: city
+        Geo_Block_Name:
+          category: scope
+          value: Xiangmi Lake New Financial Center
+          value_type: string
+          field: block
+        Temporal_Start_Year:
+          category: scope
+          value: '2020'
+          value_type: number
+          field: start_year
+        Temporal_End_Year:
+          category: scope
+          value: '2024'
+          value_type: number
+          field: end_year
+        Chart_View_Label:
+          category: claim
+          field: presentation_type
+          value: Table
+          value_type: string
+  - id: '4'
+    type: chart
+    role: chart-bar
+    layout:
+      x: 3.7
+      y: 4.85
+      width: 12.2
+      height: 7.25
+    data: ./data/element_4.csv
+    args:
+      table_type: field-constraint
+      dimensions:
+      - source_col: dim_price
+        target_col: price_range
+        method: range
+        step: 1
+        format_str: '{}-{}M'
+        min: 875
+        max: 5998
+      metrics:
+      - name: Price Rng Stats
+        source_col: trade_sets
+        agg_func: count
+        filter_condition:
+          trade_sets: 1

@@ -1,0 +1,29 @@
+{
+  "recipe": [
+    {
+      "family": "value",
+      "num_errors": 1
+    }
+  ],
+  "operations": [
+    {
+      "kind": "data_cell_edit",
+      "target": "chart",
+      "element_id": "4",
+      "role": "chart-bar",
+      "cell": {
+        "row_index": 0,
+        "row_label": "supply_area",
+        "column_index": 4,
+        "column": "2024"
+      },
+      "before": 43648.53,
+      "after": 41466.1,
+      "mutation_type": "value_data_cell",
+      "error_types": [
+        "value_error"
+      ]
+    }
+  ],
+  "expected_repair_yaml": "split/test/s_000c4d3e0165879e/gt/slide.yaml"
+}

@@ -1,0 +1,131 @@
+meta:
+  template_id: T04_Supply_Transaction_Area_Bar
+slide_filters:
+- connection:
+    table:
+    - guangzhou_new_house
+  select_columns:
+  - date_code
+  - dim_area
+  filters:
+    city: Guangzhou
+    block: Lianhuashan
+    start_date: '2020-01-01'
+    end_date: '2024-12-31'
+  fun_tool:
+    fun: Supply-Transaction Area
+    args: {}
+  sql_query:
+  - SELECT date_code, dim_area FROM public.Guangzhou_new_house WHERE city = 'Guangzhou' AND block = 'Lianhuashan' AND date_code >= '2020-01-01' AND date_code <= '2024-12-31'
+template_slide:
+  slide_size:
+    width: 19.05
+    height: 14.29
+  elements:
+  - id: '1'
+    type: textBox
+    role: slide-title
+    text: New-House Market Capacity Analysis
+    layout:
+      x: 0.5
+      y: 1.0
+      width: 18.0
+      height: 1.1
+  - id: '2'
+    type: textBox
+    role: body-text
+    text: Supply area changed **90**%, while transaction area changed **51**% through **2024**.
+    layout:
+      x: 0.5
+      y: 1.8
+      width: 18.0
+      height: 1.7
+    text_binding:
+      kind: summary
+      render:
+        theme_key: New-House Market Capacity Analysis
+        function_key: Supply-Transaction Area
+        variant_idx: 1
+      slots:
+        Metric_Var_Supply_Pct:
+          category: value
+          value: '90'
+          value_type: number
+        Metric_Var_Trans_Pct:
+          category: value
+          value: '51'
+          value_type: number
+        Temporal_End_Year:
+          category: scope
+          value: '2024'
+          value_type: number
+          field: end_year
+  - id: '3'
+    type: textBox
+    role: caption
+    text: '**Beijing Lianhuashan** Supply vs. Transaction Area (**2020**-**2024**) (Bar chart)'
+    layout:
+      x: 3.9
+      y: 3.7
+      width: 12.0
+      height: 0.9
+    text_binding:
+      kind: caption
+      render:
+        theme_key: New-House Market Capacity Analysis
+        function_key: Supply-Transaction Area
+        function_index: 0
+        view_label: Bar chart
+      slots:
+        Geo_City_Name:
+          category: scope
+          value: Beijing
+          value_type: string
+          field: city
+        Geo_Block_Name:
+          category: scope
+          value: Lianhuashan
+          value_type: string
+          field: block
+        Temporal_Start_Year:
+          category: scope
+          value: '2020'
+          value_type: number
+          field: start_year
+        Temporal_End_Year:
+          category: scope
+          value: '2024'
+          value_type: number
+          field: end_year
+        Chart_View_Label:
+          category: claim
+          field: presentation_type
+          value: Bar chart
+          value_type: string
+  - id: '4'
+    type: chart
+    role: chart-bar
+    layout:
+      x: 3.7
+      y: 4.85
+      width: 12.2
+      height: 7.25
+    data: ./data/element_4.csv
+    args:
+      table_type: field-constraint
+      dimensions:
+      - source_col: date_code
+        target_col: year
+        method: period
+        time_granularity: year
+      metrics:
+      - name: supply_area
+        source_col: dim_area
+        agg_func: sum
+        filter_condition:
+          supply_sets: 1
+      - name: deal_area
+        source_col: dim_area
+        agg_func: sum
+        filter_condition:
+          trade_sets: 1

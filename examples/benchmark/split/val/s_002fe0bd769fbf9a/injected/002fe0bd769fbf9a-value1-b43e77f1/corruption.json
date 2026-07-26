@@ -1,0 +1,29 @@
+{
+  "recipe": [
+    {
+      "family": "value",
+      "num_errors": 1
+    }
+  ],
+  "operations": [
+    {
+      "kind": "data_cell_edit",
+      "target": "table",
+      "element_id": "4",
+      "role": "table",
+      "cell": {
+        "row_index": 3,
+        "row_label": 3,
+        "column_index": 6,
+        "column": "trade_counts(2020)"
+      },
+      "before": 6,
+      "after": 3,
+      "mutation_type": "value_data_cell",
+      "error_types": [
+        "value_error"
+      ]
+    }
+  ],
+  "expected_repair_yaml": "split/val/s_002fe0bd769fbf9a/gt/slide.yaml"
+}

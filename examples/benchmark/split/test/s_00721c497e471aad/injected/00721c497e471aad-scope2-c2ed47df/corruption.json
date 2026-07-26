@@ -1,0 +1,43 @@
+{
+  "recipe": [
+    {
+      "family": "scope",
+      "num_errors": 2
+    }
+  ],
+  "operations": [
+    {
+      "kind": "text_slot_edit",
+      "target": "caption",
+      "source": "caption[0]",
+      "element_id": "3",
+      "field": "city",
+      "slot": "Geo_City_Name",
+      "before": "Shenzhen",
+      "after": "Shezhen",
+      "mutation_type": "scope_city_invalid",
+      "scope_error_type": "invalid",
+      "semantic_slot": "Geo_City_Name",
+      "error_types": [
+        "scope_error"
+      ]
+    },
+    {
+      "kind": "text_slot_edit",
+      "target": "caption",
+      "source": "caption[0]",
+      "element_id": "3",
+      "field": "block",
+      "slot": "Geo_Block_Name",
+      "before": "Xiangmi Lake New Financial Center",
+      "after": "iangmi Lake New Financial Center",
+      "mutation_type": "scope_block_invalid",
+      "scope_error_type": "invalid",
+      "semantic_slot": "Geo_Block_Name",
+      "error_types": [
+        "scope_error"
+      ]
+    }
+  ],
+  "expected_repair_yaml": "split/test/s_00721c497e471aad/gt/slide.yaml"
+}

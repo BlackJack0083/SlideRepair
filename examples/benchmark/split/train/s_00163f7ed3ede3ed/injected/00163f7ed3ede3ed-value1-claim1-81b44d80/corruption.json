@@ -1,0 +1,45 @@
+{
+  "recipe": [
+    {
+      "family": "value",
+      "num_errors": 1
+    },
+    {
+      "family": "claim",
+      "num_errors": 1
+    }
+  ],
+  "operations": [
+    {
+      "kind": "data_cell_edit",
+      "target": "chart",
+      "element_id": "4",
+      "role": "chart-bar",
+      "cell": {
+        "row_index": 0,
+        "row_label": "supply_counts",
+        "column_index": 40,
+        "column": "2023-05"
+      },
+      "before": 214,
+      "after": 257,
+      "mutation_type": "value_data_cell",
+      "error_types": [
+        "value_error"
+      ]
+    },
+    {
+      "kind": "text_slot_edit",
+      "target": "caption",
+      "element_id": "3",
+      "slot": "Chart_View_Label",
+      "before": "Bar chart",
+      "after": "Line chart",
+      "mutation_type": "claim_caption_presentation",
+      "error_types": [
+        "claim_error"
+      ]
+    }
+  ],
+  "expected_repair_yaml": "split/train/s_00163f7ed3ede3ed/gt/slide.yaml"
+}

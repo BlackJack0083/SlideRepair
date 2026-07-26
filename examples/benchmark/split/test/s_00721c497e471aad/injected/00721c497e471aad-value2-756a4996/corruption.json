@@ -1,0 +1,41 @@
+{
+  "recipe": [
+    {
+      "family": "value",
+      "num_errors": 2
+    }
+  ],
+  "operations": [
+    {
+      "kind": "data_cell_edit",
+      "target": "chart",
+      "element_id": "4",
+      "role": "chart-bar",
+      "cell": {
+        "row_index": 0,
+        "row_label": "Price Rng Stats",
+        "column_index": 0,
+        "column": "8.0-9.0M"
+      },
+      "before": 7,
+      "after": 4,
+      "mutation_type": "value_data_cell",
+      "error_types": [
+        "value_error"
+      ]
+    },
+    {
+      "kind": "text_slot_edit",
+      "target": "summary",
+      "element_id": "2",
+      "slot": "Metric_Volume_Dominant_Cluster",
+      "before": "339",
+      "after": "305",
+      "mutation_type": "value_summary_slot",
+      "error_types": [
+        "value_error"
+      ]
+    }
+  ],
+  "expected_repair_yaml": "split/test/s_00721c497e471aad/gt/slide.yaml"
+}

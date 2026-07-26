@@ -1,0 +1,16 @@
+{
+  "feedback_items": [
+    {
+      "error_type": "scope_error",
+      "response": "Please use table=guangzhou_new_house, city=Guangzhou.",
+      "field": "city",
+      "scope_error_type": "unmatch"
+    },
+    {
+      "error_type": "scope_error",
+      "response": "Please use block=Lianhuashan.",
+      "field": "block",
+      "scope_error_type": "invalid"
+    }
+  ]
+}

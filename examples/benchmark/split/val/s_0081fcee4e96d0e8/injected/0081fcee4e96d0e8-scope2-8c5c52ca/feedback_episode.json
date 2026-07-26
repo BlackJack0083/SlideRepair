@@ -1,0 +1,16 @@
+{
+  "feedback_items": [
+    {
+      "error_type": "scope_error",
+      "response": "Please use block=Songgang Intelligent Manufacturing Eco-City.",
+      "field": "block",
+      "scope_error_type": "unmatch"
+    },
+    {
+      "error_type": "scope_error",
+      "response": "Please use start_date=2020-01-01, end_date=2024-12-31.",
+      "field": "time_range",
+      "scope_error_type": "invalid"
+    }
+  ]
+}

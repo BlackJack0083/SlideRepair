@@ -1,0 +1,41 @@
+{
+  "recipe": [
+    {
+      "family": "value",
+      "num_errors": 2
+    }
+  ],
+  "operations": [
+    {
+      "kind": "text_slot_edit",
+      "target": "summary",
+      "element_id": "2",
+      "slot": "Metric_Vol_Trans_Base",
+      "before": "528",
+      "after": "529",
+      "mutation_type": "value_summary_slot",
+      "error_types": [
+        "value_error"
+      ]
+    },
+    {
+      "kind": "data_cell_edit",
+      "target": "table",
+      "element_id": "4",
+      "role": "table",
+      "cell": {
+        "row_index": 2,
+        "row_label": 2,
+        "column_index": 4,
+        "column": "2023"
+      },
+      "before": 9660,
+      "after": 4830,
+      "mutation_type": "value_data_cell",
+      "error_types": [
+        "value_error"
+      ]
+    }
+  ],
+  "expected_repair_yaml": "split/val/s_0081fcee4e96d0e8/gt/slide.yaml"
+}

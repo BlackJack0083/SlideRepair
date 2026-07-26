@@ -1,0 +1,75 @@
+{
+  "recipe": [
+    {
+      "family": "scope",
+      "num_errors": 1
+    },
+    {
+      "family": "value",
+      "num_errors": 1
+    },
+    {
+      "family": "claim",
+      "num_errors": 1
+    }
+  ],
+  "operations": [
+    {
+      "kind": "text_slot_edit",
+      "target": "caption",
+      "source": "caption[0]",
+      "element_id": "3",
+      "field": "block",
+      "slot": "Geo_Block_Name",
+      "before": "Fengtai (Other)",
+      "after": "",
+      "mutation_type": "scope_block_missing",
+      "scope_error_type": "missing",
+      "semantic_slot": "Geo_Block_Name",
+      "error_types": [
+        "scope_error"
+      ]
+    },
+    {
+      "kind": "text_slot_edit",
+      "target": "caption",
+      "source": "caption[1]",
+      "element_id": "4",
+      "field": "block",
+      "slot": "Geo_Block_Name",
+      "before": "Fengtai (Other)",
+      "after": "",
+      "mutation_type": "scope_block_missing",
+      "scope_error_type": "missing",
+      "semantic_slot": "Geo_Block_Name",
+      "error_types": [
+        "scope_error"
+      ]
+    },
+    {
+      "kind": "text_slot_edit",
+      "target": "summary",
+      "element_id": "2",
+      "slot": "Metric_Var_Supply_Pct",
+      "before": "25",
+      "after": "29",
+      "mutation_type": "value_summary_slot",
+      "error_types": [
+        "value_error"
+      ]
+    },
+    {
+      "kind": "text_slot_edit",
+      "target": "caption",
+      "element_id": "3",
+      "slot": "Chart_View_Label",
+      "before": "Line chart",
+      "after": "Table",
+      "mutation_type": "claim_caption_presentation",
+      "error_types": [
+        "claim_error"
+      ]
+    }
+  ],
+  "expected_repair_yaml": "split/test/s_038cbb71e25a54e7/gt/slide.yaml"
+}

@@ -1,0 +1,10 @@
+{
+  "feedback_items": [
+    {
+      "error_type": "scope_error",
+      "response": "Please use table=shenzhen_new_house, city=Shenzhen.",
+      "field": "city",
+      "scope_error_type": "unmatch"
+    }
+  ]
+}

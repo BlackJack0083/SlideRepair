@@ -1,0 +1,20 @@
+{
+  "sample_id": "002fe0bd769fbf9a",
+  "split": "val",
+  "city_key": "guangzhou",
+  "city": "Guangzhou",
+  "table": "Guangzhou_new_house",
+  "block": "Xiuhua Street",
+  "template_id": "T12_Area_Pivot_Table",
+  "layout_type": "single_column_table",
+  "slide_size": {
+    "width": 25.4,
+    "height": 14.29
+  },
+  "start_year": "2020",
+  "end_year": "2024",
+  "sample_dir": "split/val/s_002fe0bd769fbf9a",
+  "gt_yaml": "split/val/s_002fe0bd769fbf9a/gt/slide.yaml",
+  "gt_ppt": "split/val/s_002fe0bd769fbf9a/gt/slide.pptx",
+  "created_at": "2026-06-16T07:24:56.213424+00:00"
+}

@@ -1,0 +1,20 @@
+{
+  "sample_id": "0045ad1cc5b417f6",
+  "split": "val",
+  "city_key": "beijing",
+  "city": "Beijing",
+  "table": "Beijing_new_house",
+  "block": "Pinggu District",
+  "template_id": "T04_Annual_Supply_Demand_Bar",
+  "layout_type": "double_column_bar",
+  "slide_size": {
+    "width": 25.4,
+    "height": 14.29
+  },
+  "start_year": "2020",
+  "end_year": "2024",
+  "sample_dir": "split/val/s_0045ad1cc5b417f6",
+  "gt_yaml": "split/val/s_0045ad1cc5b417f6/gt/slide.yaml",
+  "gt_ppt": "split/val/s_0045ad1cc5b417f6/gt/slide.pptx",
+  "created_at": "2026-06-16T07:07:43.078880+00:00"
+}

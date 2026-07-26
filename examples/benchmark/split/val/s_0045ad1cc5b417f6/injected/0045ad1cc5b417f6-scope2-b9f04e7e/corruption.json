@@ -1,0 +1,59 @@
+{
+  "recipe": [
+    {
+      "family": "scope",
+      "num_errors": 2
+    }
+  ],
+  "operations": [
+    {
+      "kind": "text_slot_edit",
+      "target": "caption",
+      "source": "caption[0]",
+      "element_id": "3",
+      "field": "block",
+      "slot": "Geo_Block_Name",
+      "before": "Pinggu District",
+      "after": "Yizhuang Hexi",
+      "mutation_type": "scope_block_conflict",
+      "scope_error_type": "conflict",
+      "semantic_slot": "Geo_Block_Name",
+      "error_types": [
+        "scope_error"
+      ]
+    },
+    {
+      "kind": "text_slot_edit",
+      "target": "caption",
+      "source": "caption[0]",
+      "element_id": "3",
+      "field": "time_range",
+      "slot": "Temporal_Start_Year",
+      "before": "2020",
+      "after": "2018",
+      "mutation_type": "scope_time_range_conflict",
+      "scope_error_type": "conflict",
+      "semantic_slot": "Temporal_Start_Year",
+      "error_types": [
+        "scope_error"
+      ]
+    },
+    {
+      "kind": "text_slot_edit",
+      "target": "caption",
+      "source": "caption[0]",
+      "element_id": "3",
+      "field": "time_range",
+      "slot": "Temporal_End_Year",
+      "before": "2024",
+      "after": "2022",
+      "mutation_type": "scope_time_range_conflict",
+      "scope_error_type": "conflict",
+      "semantic_slot": "Temporal_End_Year",
+      "error_types": [
+        "scope_error"
+      ]
+    }
+  ],
+  "expected_repair_yaml": "split/val/s_0045ad1cc5b417f6/gt/slide.yaml"
+}

@@ -1,0 +1,153 @@
+meta:
+  template_id: T09_Monthly_Supply_Bar
+slide_filters:
+- connection:
+    table:
+    - beijing_new_house
+  select_columns:
+  - date_code
+  - supply_sets
+  - trade_sets
+  filters:
+    city: Beijing
+    block: Miyun District
+    start_date: '2020-01-01'
+    end_date: '2024-12-31'
+  fun_tool:
+    fun: Monthly Supply Volume
+    args:
+      col_names:
+      - supply_counts
+      - trade_counts
+  sql_query:
+  - SELECT date_code, supply_sets, trade_sets FROM public.Beijing_new_house WHERE city = 'Beijing' AND block = 'Miyun District' AND date_code >= '2020-01-01' AND date_code <= '2024-12-31'
+template_slide:
+  slide_size:
+    width: 19.05
+    height: 14.29
+  elements:
+  - id: '1'
+    type: textBox
+    role: slide-title
+    text: Monthly Supply & Transaction Volume Analysis
+    layout:
+      x: 0.5
+      y: 1.0
+      width: 18.0
+      height: 1.1
+  - id: '2'
+    type: textBox
+    role: body-text
+    text: From **2020** to **2024**, **Miyun District** recorded a peak monthly transaction volume of **1,914** units in **2021-12**, with an average of **136** units per month and an overall supply-to-demand ratio of **76**%.
+    layout:
+      x: 0.5
+      y: 1.8
+      width: 18.0
+      height: 1.7
+    text_binding:
+      kind: summary
+      render:
+        theme_key: Monthly Supply Analysis
+        function_key: Monthly Supply Volume
+        variant_idx: 0
+      slots:
+        Temporal_Start_Year:
+          category: scope
+          value: '2020'
+          value_type: number
+          field: start_year
+        Temporal_End_Year:
+          category: scope
+          value: '2024'
+          value_type: number
+          field: end_year
+        Geo_Block_Name:
+          category: scope
+          value: Miyun District
+          value_type: string
+          field: block
+        Metric_Volume_Trade_Peak:
+          category: value
+          value: 1,914
+          value_type: number
+        Temporal_Month_Peak:
+          category: value
+          value: 2021-12
+          value_type: string
+        Metric_Volume_Trade_Average:
+          category: value
+          value: '136'
+          value_type: number
+        Metric_Supply_Demand_Ratio:
+          category: value
+          value: '76'
+          value_type: number
+  - id: '3'
+    type: textBox
+    role: caption
+    text: '**Beijing Miyun District** Monthly Supply & Transactions (**2020**-**2024**) (Bar chart)'
+    layout:
+      x: 3.9
+      y: 3.7
+      width: 12.0
+      height: 0.9
+    text_binding:
+      kind: caption
+      render:
+        theme_key: Monthly Supply Analysis
+        function_key: Monthly Supply Volume
+        function_index: 0
+        view_label: Bar chart
+      slots:
+        Geo_City_Name:
+          category: scope
+          value: Beijing
+          value_type: string
+          field: city
+        Geo_Block_Name:
+          category: scope
+          value: Miyun District
+          value_type: string
+          field: block
+        Temporal_Start_Year:
+          category: scope
+          value: '2020'
+          value_type: number
+          field: start_year
+        Temporal_End_Year:
+          category: scope
+          value: '2024'
+          value_type: number
+          field: end_year
+        Chart_View_Label:
+          category: claim
+          field: presentation_type
+          value: Bar chart
+          value_type: string
+  - id: '4'
+    type: chart
+    role: chart-bar
+    layout:
+      x: 3.7
+      y: 4.85
+      width: 12.2
+      height: 7.25
+    data: ./data/element_4.csv
+    args:
+      table_type: field-constraint
+      dimensions:
+      - source_col: date_code
+        target_col: month
+        method: period
+        time_granularity: month
+      metrics:
+      - name: supply_counts
+        source_col: supply_sets
+        agg_func: count
+        filter_condition:
+          supply_sets: 1
+      - name: trade_counts
+        source_col: trade_sets
+        agg_func: count
+        filter_condition:
+          trade_sets: 1

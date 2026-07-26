@@ -1,0 +1,107 @@
+{
+  "recipe": [
+    {
+      "family": "scope",
+      "num_errors": 2
+    }
+  ],
+  "operations": [
+    {
+      "kind": "text_slot_edit",
+      "target": "caption",
+      "source": "caption[0]",
+      "element_id": "3",
+      "field": "city",
+      "slot": "Geo_City_Name",
+      "before": "Guangzhou",
+      "after": "Beijing",
+      "mutation_type": "scope_city_unmatch",
+      "scope_error_type": "unmatch",
+      "semantic_slot": "Geo_City_Name",
+      "error_types": [
+        "scope_error"
+      ]
+    },
+    {
+      "kind": "text_slot_edit",
+      "target": "caption",
+      "source": "caption[1]",
+      "element_id": "4",
+      "field": "city",
+      "slot": "Geo_City_Name",
+      "before": "Guangzhou",
+      "after": "Beijing",
+      "mutation_type": "scope_city_unmatch",
+      "scope_error_type": "unmatch",
+      "semantic_slot": "Geo_City_Name",
+      "error_types": [
+        "scope_error"
+      ]
+    },
+    {
+      "kind": "text_slot_edit",
+      "target": "caption",
+      "source": "caption[0]",
+      "element_id": "3",
+      "field": "time_range",
+      "slot": "Temporal_Start_Year",
+      "before": "2020",
+      "after": "",
+      "mutation_type": "scope_time_range_missing",
+      "scope_error_type": "missing",
+      "semantic_slot": "Temporal_Start_Year",
+      "error_types": [
+        "scope_error"
+      ]
+    },
+    {
+      "kind": "text_slot_edit",
+      "target": "caption",
+      "source": "caption[0]",
+      "element_id": "3",
+      "field": "time_range",
+      "slot": "Temporal_End_Year",
+      "before": "2024",
+      "after": "",
+      "mutation_type": "scope_time_range_missing",
+      "scope_error_type": "missing",
+      "semantic_slot": "Temporal_End_Year",
+      "error_types": [
+        "scope_error"
+      ]
+    },
+    {
+      "kind": "text_slot_edit",
+      "target": "caption",
+      "source": "caption[1]",
+      "element_id": "4",
+      "field": "time_range",
+      "slot": "Temporal_Start_Year",
+      "before": "2020",
+      "after": "",
+      "mutation_type": "scope_time_range_missing",
+      "scope_error_type": "missing",
+      "semantic_slot": "Temporal_Start_Year",
+      "error_types": [
+        "scope_error"
+      ]
+    },
+    {
+      "kind": "text_slot_edit",
+      "target": "caption",
+      "source": "caption[1]",
+      "element_id": "4",
+      "field": "time_range",
+      "slot": "Temporal_End_Year",
+      "before": "2024",
+      "after": "",
+      "mutation_type": "scope_time_range_missing",
+      "scope_error_type": "missing",
+      "semantic_slot": "Temporal_End_Year",
+      "error_types": [
+        "scope_error"
+      ]
+    }
+  ],
+  "expected_repair_yaml": "split/train/s_00d331494fc67930/gt/slide.yaml"
+}

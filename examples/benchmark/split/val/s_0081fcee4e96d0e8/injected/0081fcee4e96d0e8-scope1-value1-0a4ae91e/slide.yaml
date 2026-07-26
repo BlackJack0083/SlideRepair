@@ -1,0 +1,118 @@
+meta:
+  template_id: T05_Resale_Summary_Table
+slide_filters:
+- connection:
+    table:
+    - shenzhen_resale_house
+  select_columns:
+  - date_code
+  - trade_sets
+  - dim_unit_price
+  - dim_area
+  filters:
+    city: Shenzhen
+    block: Songgang Intelligent Manufacturing Eco-City
+    start_date: '2020-01-01'
+    end_date: '2024-12-31'
+  fun_tool:
+    fun: Historical Delivery Metrics
+    args: {}
+  sql_query:
+  - SELECT date_code, trade_sets, dim_unit_price, dim_area FROM public.Shenzhen_resale_house WHERE city = 'Shenzhen' AND block = 'Songgang Intelligent Manufacturing Eco-City' AND date_code >= '2020-01-01' AND date_code <= '2024-12-31'
+template_slide:
+  slide_size:
+    width: 25.4
+    height: 14.29
+  elements:
+  - id: '1'
+    type: textBox
+    role: slide-title
+    text: Resale-House Capacity & Structure
+    layout:
+      x: 0.5
+      y: 1.0
+      width: 24.0
+      height: 1.1
+  - id: '2'
+    type: textBox
+    role: body-text
+    text: Across the period, resale transaction volume moved from **713** units to **193** units, a net **decrease** of **335** units.
+    layout:
+      x: 0.5
+      y: 1.9
+      width: 24.0
+      height: 1.45
+    text_binding:
+      kind: summary
+      render:
+        theme_key: Resale-House Capacity & Structure
+        function_key: Historical Delivery Metrics
+        variant_idx: 1
+      slots:
+        Metric_Vol_Trans_Base:
+          category: value
+          value: '713'
+          value_type: number
+        Metric_Vol_Trans_Terminal:
+          category: value
+          value: '193'
+          value_type: number
+        Trend_Direction_Label:
+          category: claim
+          value: decrease
+          value_type: trend
+        Metric_Var_Trans_Delta:
+          category: value
+          value: '335'
+          value_type: number
+  - id: '3'
+    type: textBox
+    role: caption
+    text: '**Shenzhen ** Resale Market Summary (**2020**-**2024**) (Table)'
+    layout:
+      x: 5.2
+      y: 3.65
+      width: 15.0
+      height: 0.9
+    text_binding:
+      kind: caption
+      render:
+        theme_key: Resale-House Capacity & Structure
+        function_key: Historical Delivery Metrics
+        function_index: 0
+        view_label: Table
+      slots:
+        Geo_City_Name:
+          category: scope
+          value: Shenzhen
+          value_type: string
+          field: city
+        Geo_Block_Name:
+          category: scope
+          value: ''
+          value_type: string
+          field: block
+        Temporal_Start_Year:
+          category: scope
+          value: '2020'
+          value_type: number
+          field: start_year
+        Temporal_End_Year:
+          category: scope
+          value: '2024'
+          value_type: number
+          field: end_year
+        Chart_View_Label:
+          category: claim
+          field: presentation_type
+          value: Table
+          value_type: string
+  - id: '4'
+    type: table
+    role: table
+    layout:
+      x: 0.84
+      y: 4.55
+      width: 23.75
+      height: 8.7
+    data: ./data/element_4.csv

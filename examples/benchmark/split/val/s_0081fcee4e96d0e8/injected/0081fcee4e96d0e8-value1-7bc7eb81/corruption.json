@@ -1,0 +1,29 @@
+{
+  "recipe": [
+    {
+      "family": "value",
+      "num_errors": 1
+    }
+  ],
+  "operations": [
+    {
+      "kind": "data_cell_edit",
+      "target": "table",
+      "element_id": "4",
+      "role": "table",
+      "cell": {
+        "row_index": 1,
+        "row_label": 1,
+        "column_index": 5,
+        "column": "2024"
+      },
+      "before": 35410,
+      "after": 17705,
+      "mutation_type": "value_data_cell",
+      "error_types": [
+        "value_error"
+      ]
+    }
+  ],
+  "expected_repair_yaml": "split/val/s_0081fcee4e96d0e8/gt/slide.yaml"
+}

@@ -1,0 +1,43 @@
+{
+  "recipe": [
+    {
+      "family": "scope",
+      "num_errors": 1
+    }
+  ],
+  "operations": [
+    {
+      "kind": "text_slot_edit",
+      "target": "caption",
+      "source": "caption[0]",
+      "element_id": "3",
+      "field": "block",
+      "slot": "Geo_Block_Name",
+      "before": "Pinggu District",
+      "after": "",
+      "mutation_type": "scope_block_missing",
+      "scope_error_type": "missing",
+      "semantic_slot": "Geo_Block_Name",
+      "error_types": [
+        "scope_error"
+      ]
+    },
+    {
+      "kind": "text_slot_edit",
+      "target": "caption",
+      "source": "caption[1]",
+      "element_id": "4",
+      "field": "block",
+      "slot": "Geo_Block_Name",
+      "before": "Pinggu District",
+      "after": "",
+      "mutation_type": "scope_block_missing",
+      "scope_error_type": "missing",
+      "semantic_slot": "Geo_Block_Name",
+      "error_types": [
+        "scope_error"
+      ]
+    }
+  ],
+  "expected_repair_yaml": "split/val/s_0045ad1cc5b417f6/gt/slide.yaml"
+}

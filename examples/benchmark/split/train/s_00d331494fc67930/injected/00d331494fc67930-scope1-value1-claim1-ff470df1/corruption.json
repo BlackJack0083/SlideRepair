@@ -1,0 +1,81 @@
+{
+  "recipe": [
+    {
+      "family": "scope",
+      "num_errors": 1
+    },
+    {
+      "family": "value",
+      "num_errors": 1
+    },
+    {
+      "family": "claim",
+      "num_errors": 1
+    }
+  ],
+  "operations": [
+    {
+      "kind": "text_slot_edit",
+      "target": "caption",
+      "source": "caption[0]",
+      "element_id": "3",
+      "field": "block",
+      "slot": "Geo_Block_Name",
+      "before": "Nansha Bay",
+      "after": "",
+      "mutation_type": "scope_block_missing",
+      "scope_error_type": "missing",
+      "semantic_slot": "Geo_Block_Name",
+      "error_types": [
+        "scope_error"
+      ]
+    },
+    {
+      "kind": "text_slot_edit",
+      "target": "caption",
+      "source": "caption[1]",
+      "element_id": "4",
+      "field": "block",
+      "slot": "Geo_Block_Name",
+      "before": "Nansha Bay",
+      "after": "",
+      "mutation_type": "scope_block_missing",
+      "scope_error_type": "missing",
+      "semantic_slot": "Geo_Block_Name",
+      "error_types": [
+        "scope_error"
+      ]
+    },
+    {
+      "kind": "data_cell_edit",
+      "target": "chart",
+      "element_id": "5",
+      "role": "chart-line",
+      "cell": {
+        "row_index": 0,
+        "row_label": "Area Rng Stats",
+        "column_index": 15,
+        "column": "≥300m²"
+      },
+      "before": 8,
+      "after": 4,
+      "mutation_type": "value_data_cell",
+      "error_types": [
+        "value_error"
+      ]
+    },
+    {
+      "kind": "text_slot_edit",
+      "target": "caption",
+      "element_id": "3",
+      "slot": "Chart_View_Label",
+      "before": "Line chart",
+      "after": "Bar chart",
+      "mutation_type": "claim_caption_presentation",
+      "error_types": [
+        "claim_error"
+      ]
+    }
+  ],
+  "expected_repair_yaml": "split/train/s_00d331494fc67930/gt/slide.yaml"
+}

@@ -1,0 +1,16 @@
+{
+  "feedback_items": [
+    {
+      "error_type": "scope_error",
+      "response": "Please use table=beijing_new_house, city=Beijing.",
+      "field": "city",
+      "scope_error_type": "invalid"
+    },
+    {
+      "error_type": "scope_error",
+      "response": "Please use block=Miyun District.",
+      "field": "block",
+      "scope_error_type": "conflict"
+    }
+  ]
+}

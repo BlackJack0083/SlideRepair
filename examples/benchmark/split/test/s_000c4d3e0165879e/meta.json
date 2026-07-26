@@ -1,0 +1,20 @@
+{
+  "sample_id": "000c4d3e0165879e",
+  "split": "test",
+  "city_key": "guangzhou",
+  "city": "Guangzhou",
+  "table": "Guangzhou_new_house",
+  "block": "Lianhuashan",
+  "template_id": "T04_Supply_Transaction_Area_Bar",
+  "layout_type": "single_column_bar",
+  "slide_size": {
+    "width": 19.05,
+    "height": 14.29
+  },
+  "start_year": "2020",
+  "end_year": "2024",
+  "sample_dir": "split/test/s_000c4d3e0165879e",
+  "gt_yaml": "split/test/s_000c4d3e0165879e/gt/slide.yaml",
+  "gt_ppt": "split/test/s_000c4d3e0165879e/gt/slide.pptx",
+  "created_at": "2026-06-16T07:19:21.124230+00:00"
+}

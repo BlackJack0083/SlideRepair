@@ -1,0 +1,59 @@
+{
+  "recipe": [
+    {
+      "family": "scope",
+      "num_errors": 1
+    },
+    {
+      "family": "value",
+      "num_errors": 1
+    }
+  ],
+  "operations": [
+    {
+      "kind": "text_slot_edit",
+      "target": "caption",
+      "source": "caption[0]",
+      "element_id": "3",
+      "field": "time_range",
+      "slot": "Temporal_Start_Year",
+      "before": "2020",
+      "after": "2021",
+      "mutation_type": "scope_time_range_conflict",
+      "scope_error_type": "conflict",
+      "semantic_slot": "Temporal_Start_Year",
+      "error_types": [
+        "scope_error"
+      ]
+    },
+    {
+      "kind": "text_slot_edit",
+      "target": "caption",
+      "source": "caption[0]",
+      "element_id": "3",
+      "field": "time_range",
+      "slot": "Temporal_End_Year",
+      "before": "2024",
+      "after": "2025",
+      "mutation_type": "scope_time_range_conflict",
+      "scope_error_type": "conflict",
+      "semantic_slot": "Temporal_End_Year",
+      "error_types": [
+        "scope_error"
+      ]
+    },
+    {
+      "kind": "text_slot_edit",
+      "target": "summary",
+      "element_id": "2",
+      "slot": "Seg_Area_Stratum_Dominant",
+      "before": "80-100m²",
+      "after": "76-100m²",
+      "mutation_type": "value_summary_slot",
+      "error_types": [
+        "value_error"
+      ]
+    }
+  ],
+  "expected_repair_yaml": "split/train/s_00156810871846a6/gt/slide.yaml"
+}

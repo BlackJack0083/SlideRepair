@@ -1,0 +1,27 @@
+{
+  "recipe": [
+    {
+      "family": "scope",
+      "num_errors": 1
+    }
+  ],
+  "operations": [
+    {
+      "kind": "text_slot_edit",
+      "target": "caption",
+      "source": "caption[0]",
+      "element_id": "3",
+      "field": "city",
+      "slot": "Geo_City_Name",
+      "before": "Shenzhen",
+      "after": "Beijing",
+      "mutation_type": "scope_city_conflict",
+      "scope_error_type": "conflict",
+      "semantic_slot": "Geo_City_Name",
+      "error_types": [
+        "scope_error"
+      ]
+    }
+  ],
+  "expected_repair_yaml": "split/train/s_00156810871846a6/gt/slide.yaml"
+}

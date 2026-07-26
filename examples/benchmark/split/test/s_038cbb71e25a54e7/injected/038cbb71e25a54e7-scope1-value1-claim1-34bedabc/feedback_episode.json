@@ -1,0 +1,15 @@
+{
+  "feedback_items": [
+    {
+      "error_type": "scope_error",
+      "response": "Please use block=Fengtai (Other).",
+      "field": "block",
+      "scope_error_type": "missing"
+    },
+    {
+      "error_type": "claim_error",
+      "response": "Please describe it as a Line chart.",
+      "target": "caption"
+    }
+  ]
+}

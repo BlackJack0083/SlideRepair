@@ -1,0 +1,212 @@
+meta:
+  template_id: T04_Annual_Supply_Demand_Line
+slide_filters:
+- connection:
+    table:
+    - beijing_new_house
+  select_columns:
+  - date_code
+  - supply_sets
+  - trade_sets
+  filters:
+    city: Beijing
+    block: Fengtai (Other)
+    start_date: '2020-01-01'
+    end_date: '2024-12-31'
+  fun_tool:
+    fun: Annual Supply-Demand Comparison
+    args: {}
+  sql_query:
+  - SELECT date_code, supply_sets, trade_sets FROM public.Beijing_new_house WHERE city = 'Beijing' AND block = 'Fengtai (Other)' AND date_code >= '2020-01-01' AND date_code <= '2024-12-31'
+- connection:
+    table:
+    - beijing_new_house
+  select_columns:
+  - date_code
+  - dim_area
+  filters:
+    city: Beijing
+    block: Fengtai (Other)
+    start_date: '2020-01-01'
+    end_date: '2024-12-31'
+  fun_tool:
+    fun: Supply-Transaction Area
+    args: {}
+  sql_query:
+  - SELECT date_code, dim_area FROM public.Beijing_new_house WHERE city = 'Beijing' AND block = 'Fengtai (Other)' AND date_code >= '2020-01-01' AND date_code <= '2024-12-31'
+template_slide:
+  slide_size:
+    width: 25.4
+    height: 14.29
+  elements:
+  - id: '1'
+    type: textBox
+    role: slide-title
+    text: New-House Market Capacity Analysis
+    layout:
+      x: 0.5
+      y: 1.0
+      width: 24.0
+      height: 1.1
+  - id: '2'
+    type: textBox
+    role: body-text
+    text: Listings changed **25**%, while transactions changed **231**% over the period.
+    layout:
+      x: 0.5
+      y: 1.9
+      width: 24.0
+      height: 1.05
+    text_binding:
+      kind: summary
+      render:
+        theme_key: New-House Market Capacity Analysis
+        function_key: Annual Supply-Demand Comparison
+        variant_idx: 1
+      slots:
+        Metric_Var_Supply_Pct:
+          category: value
+          value: '25'
+          value_type: number
+        Metric_Var_Trans_Pct:
+          category: value
+          value: '231'
+          value_type: number
+  - id: '3'
+    type: textBox
+    role: caption
+    text: '**Beijing Fengtai (Other)** Annual Supply vs. Demand (**2020**-**2024**) (Line chart)'
+    layout:
+      x: 1.1
+      y: 3.35
+      width: 11.8
+      height: 0.9
+    text_binding:
+      kind: caption
+      render:
+        theme_key: New-House Market Capacity Analysis
+        function_key: Annual Supply-Demand Comparison
+        function_index: 0
+        view_label: Line chart
+      slots:
+        Geo_City_Name:
+          category: scope
+          value: Beijing
+          value_type: string
+          field: city
+        Geo_Block_Name:
+          category: scope
+          value: Fengtai (Other)
+          value_type: string
+          field: block
+        Temporal_Start_Year:
+          category: scope
+          value: '2020'
+          value_type: number
+          field: start_year
+        Temporal_End_Year:
+          category: scope
+          value: '2024'
+          value_type: number
+          field: end_year
+        Chart_View_Label:
+          category: claim
+          field: presentation_type
+          value: Line chart
+          value_type: string
+  - id: '4'
+    type: textBox
+    role: caption
+    text: '**Beijing Fengtai (Other)** Supply vs. Transaction Area (**2020**-**2024**) (Line chart)'
+    layout:
+      x: 13.0
+      y: 3.35
+      width: 11.8
+      height: 0.9
+    text_binding:
+      kind: caption
+      render:
+        theme_key: New-House Market Capacity Analysis
+        function_key: Supply-Transaction Area
+        function_index: 1
+        view_label: Line chart
+      slots:
+        Geo_City_Name:
+          category: scope
+          value: Beijing
+          value_type: string
+          field: city
+        Geo_Block_Name:
+          category: scope
+          value: Fengtai (Other)
+          value_type: string
+          field: block
+        Temporal_Start_Year:
+          category: scope
+          value: '2020'
+          value_type: number
+          field: start_year
+        Temporal_End_Year:
+          category: scope
+          value: '2024'
+          value_type: number
+          field: end_year
+        Chart_View_Label:
+          category: claim
+          field: presentation_type
+          value: Line chart
+          value_type: string
+  - id: '5'
+    type: chart
+    role: chart-line
+    layout:
+      x: 0.75
+      y: 4.65
+      width: 10.5
+      height: 6.7
+    data: ./data/element_5.csv
+    args:
+      table_type: field-constraint
+      dimensions:
+      - source_col: date_code
+        target_col: year
+        method: period
+        time_granularity: year
+      metrics:
+      - name: supply_count
+        source_col: supply_sets
+        agg_func: count
+        filter_condition:
+          supply_sets: 1
+      - name: deal_count
+        source_col: trade_sets
+        agg_func: count
+        filter_condition:
+          trade_sets: 1
+  - id: '6'
+    type: chart
+    role: chart-line
+    layout:
+      x: 12.75
+      y: 4.65
+      width: 10.5
+      height: 6.7
+    data: ./data/element_6.csv
+    args:
+      table_type: field-constraint
+      dimensions:
+      - source_col: date_code
+        target_col: year
+        method: period
+        time_granularity: year
+      metrics:
+      - name: supply_area
+        source_col: dim_area
+        agg_func: sum
+        filter_condition:
+          supply_sets: 1
+      - name: deal_area
+        source_col: dim_area
+        agg_func: sum
+        filter_condition:
+          trade_sets: 1

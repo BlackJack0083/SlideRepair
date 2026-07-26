@@ -1,0 +1,23 @@
+{
+  "recipe": [
+    {
+      "family": "claim",
+      "num_errors": 1
+    }
+  ],
+  "operations": [
+    {
+      "kind": "text_slot_edit",
+      "target": "caption",
+      "element_id": "3",
+      "slot": "Chart_View_Label",
+      "before": "Table",
+      "after": "Pie chart",
+      "mutation_type": "claim_caption_presentation",
+      "error_types": [
+        "claim_error"
+      ]
+    }
+  ],
+  "expected_repair_yaml": "split/val/s_0081fcee4e96d0e8/gt/slide.yaml"
+}

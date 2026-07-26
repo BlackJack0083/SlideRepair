@@ -1,0 +1,209 @@
+meta:
+  template_id: T02_Double_Price_Dist_Line
+slide_filters:
+- connection:
+    table:
+    - shenzhen_new_house
+  select_columns:
+  - dim_area
+  - trade_sets
+  filters:
+    city: Shenzhen
+    block: Kuichong
+    start_date: '2020-01-01'
+    end_date: '2024-12-31'
+  fun_tool:
+    fun: Area Segment Distribution
+    args:
+      area_range_size: 20
+  sql_query:
+  - SELECT dim_area, trade_sets FROM public.Shenzhen_new_house WHERE city = 'Shenzhen' AND block = 'Kuichong' AND date_code >= '2020-01-01' AND date_code <= '2024-12-31'
+- connection:
+    table:
+    - shenzhen_new_house
+  select_columns:
+  - dim_price
+  - trade_sets
+  filters:
+    city: Shenzhen
+    block: Kuichong
+    start_date: '2020-01-01'
+    end_date: '2024-12-31'
+  fun_tool:
+    fun: Price Segment Distribution
+    args:
+      price_range_size: 1
+  sql_query:
+  - SELECT dim_price, trade_sets FROM public.Shenzhen_new_house WHERE city = 'Shenzhen' AND block = 'Kuichong' AND date_code >= '2020-01-01' AND date_code <= '2024-12-31'
+template_slide:
+  slide_size:
+    width: 25.4
+    height: 14.29
+  elements:
+  - id: '1'
+    type: textBox
+    role: slide-title
+    text: New-House Cross-Structure Analysis
+    layout:
+      x: 0.5
+      y: 1.0
+      width: 24.0
+      height: 1.1
+  - id: '2'
+    type: textBox
+    role: body-text
+    text: The **80-100m²** typology emerged as the mainstream segment, amassing a total of **1214** units.
+    layout:
+      x: 0.5
+      y: 1.9
+      width: 24.0
+      height: 1.05
+    text_binding:
+      kind: summary
+      render:
+        theme_key: New-House Cross-Structure Analysis
+        function_key: Area Segment Distribution
+        variant_idx: 2
+      slots:
+        Seg_Area_Stratum_Dominant:
+          category: value
+          value: 80-100m²
+          value_type: string
+        Metric_Volume_Dominant_Cluster:
+          category: value
+          value: '1214'
+          value_type: number
+  - id: '3'
+    type: textBox
+    role: caption
+    text: '**Shenzhen Kuichong** Area Segment Distribution (**2020**-**2024**) (Line chart)'
+    layout:
+      x: 1.1
+      y: 3.35
+      width: 11.8
+      height: 0.9
+    text_binding:
+      kind: caption
+      render:
+        theme_key: New-House Cross-Structure Analysis
+        function_key: Area Segment Distribution
+        function_index: 0
+        view_label: Line chart
+      slots:
+        Geo_City_Name:
+          category: scope
+          value: Shenzhen
+          value_type: string
+          field: city
+        Geo_Block_Name:
+          category: scope
+          value: Kuichong
+          value_type: string
+          field: block
+        Temporal_Start_Year:
+          category: scope
+          value: '2020'
+          value_type: number
+          field: start_year
+        Temporal_End_Year:
+          category: scope
+          value: '2024'
+          value_type: number
+          field: end_year
+        Chart_View_Label:
+          category: claim
+          field: presentation_type
+          value: Line chart
+          value_type: string
+  - id: '4'
+    type: textBox
+    role: caption
+    text: '**Shenzhen Kuichong** Price Segment Distribution (**2020**-**2024**) (Line chart)'
+    layout:
+      x: 13.0
+      y: 3.35
+      width: 11.8
+      height: 0.9
+    text_binding:
+      kind: caption
+      render:
+        theme_key: New-House Cross-Structure Analysis
+        function_key: Price Segment Distribution
+        function_index: 1
+        view_label: Line chart
+      slots:
+        Geo_City_Name:
+          category: scope
+          value: Shenzhen
+          value_type: string
+          field: city
+        Geo_Block_Name:
+          category: scope
+          value: Kuichong
+          value_type: string
+          field: block
+        Temporal_Start_Year:
+          category: scope
+          value: '2020'
+          value_type: number
+          field: start_year
+        Temporal_End_Year:
+          category: scope
+          value: '2024'
+          value_type: number
+          field: end_year
+        Chart_View_Label:
+          category: claim
+          field: presentation_type
+          value: Line chart
+          value_type: string
+  - id: '5'
+    type: chart
+    role: chart-line
+    layout:
+      x: 0.75
+      y: 4.65
+      width: 10.5
+      height: 6.7
+    data: ./data/element_5.csv
+    args:
+      table_type: field-constraint
+      dimensions:
+      - source_col: dim_area
+        target_col: area_range
+        method: range
+        step: 20
+        format_str: '{}-{}m²'
+        min: 66
+        max: 432
+      metrics:
+      - name: Area Rng Stats
+        source_col: trade_sets
+        agg_func: count
+        filter_condition:
+          trade_sets: 1
+  - id: '6'
+    type: chart
+    role: chart-line
+    layout:
+      x: 12.75
+      y: 4.65
+      width: 10.5
+      height: 6.7
+    data: ./data/element_6.csv
+    args:
+      table_type: field-constraint
+      dimensions:
+      - source_col: dim_price
+        target_col: price_range
+        method: range
+        step: 1
+        format_str: '{}-{}M'
+        min: 92
+        max: 4637
+      metrics:
+      - name: Price Rng Stats
+        source_col: trade_sets
+        agg_func: count
+        filter_condition:
+          trade_sets: 1

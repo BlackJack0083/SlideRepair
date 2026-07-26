@@ -1,0 +1,41 @@
+{
+  "recipe": [
+    {
+      "family": "value",
+      "num_errors": 2
+    }
+  ],
+  "operations": [
+    {
+      "kind": "text_slot_edit",
+      "target": "summary",
+      "element_id": "2",
+      "slot": "Metric_Var_Supply_Pct",
+      "before": "25",
+      "after": "5",
+      "mutation_type": "value_summary_slot",
+      "error_types": [
+        "value_error"
+      ]
+    },
+    {
+      "kind": "data_cell_edit",
+      "target": "chart",
+      "element_id": "5",
+      "role": "chart-line",
+      "cell": {
+        "row_index": 1,
+        "row_label": "deal_count",
+        "column_index": 4,
+        "column": "2024"
+      },
+      "before": 600.0,
+      "after": 608,
+      "mutation_type": "value_data_cell",
+      "error_types": [
+        "value_error"
+      ]
+    }
+  ],
+  "expected_repair_yaml": "split/test/s_038cbb71e25a54e7/gt/slide.yaml"
+}

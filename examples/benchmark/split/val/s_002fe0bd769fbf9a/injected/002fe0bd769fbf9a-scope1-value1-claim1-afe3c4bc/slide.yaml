@@ -1,0 +1,145 @@
+meta:
+  template_id: T12_Area_Pivot_Table
+slide_filters:
+- connection:
+    table:
+    - guangzhou_new_house
+  select_columns:
+  - dim_area
+  - date_code
+  - supply_sets
+  - trade_sets
+  filters:
+    city: Guangzhou
+    block: Xiuhua Street
+    start_date: '2020-01-01'
+    end_date: '2024-12-31'
+  fun_tool:
+    fun: Area Year Pivot
+    args:
+      area_range_size: 20
+      col_names:
+      - supply_counts
+      - trade_counts
+  sql_query:
+  - SELECT dim_area, date_code, supply_sets, trade_sets FROM public.Guangzhou_new_house WHERE city = 'Guangzhou' AND block = 'Xiuhua Street' AND date_code >= '2020-01-01' AND date_code <= '2024-12-31'
+template_slide:
+  slide_size:
+    width: 25.4
+    height: 14.29
+  elements:
+  - id: '1'
+    type: textBox
+    role: slide-title
+    text: Area Segment Annual Trend Analysis
+    layout:
+      x: 0.5
+      y: 1.0
+      width: 24.0
+      height: 1.1
+  - id: '2'
+    type: textBox
+    role: body-text
+    text: Across ****-****, **75-120m²** remained the leading area segment in **Xiuhua Street**, contributing **55**% of the total **3,837** units while annual transaction volume **decreased** from **1,013** to **635** units.
+    layout:
+      x: 0.5
+      y: 1.9
+      width: 24.0
+      height: 1.45
+    text_binding:
+      kind: summary
+      render:
+        theme_key: Area Segment Annual Trend Analysis
+        function_key: Area Year Pivot
+        variant_idx: 0
+      slots:
+        Temporal_Start_Year:
+          category: scope
+          value: ''
+          value_type: number
+          field: start_year
+        Temporal_End_Year:
+          category: scope
+          value: ''
+          value_type: number
+          field: end_year
+        Seg_Area_Stratum_Dominant:
+          category: value
+          value: 75-120m²
+          value_type: string
+        Geo_Block_Name:
+          category: scope
+          value: Xiuhua Street
+          value_type: string
+          field: block
+        Metric_Share_Dominant_Cluster:
+          category: value
+          value: '55'
+          value_type: number
+        Metric_Volume_Total:
+          category: value
+          value: 3,837
+          value_type: number
+        Trend_Trajectory_Type:
+          category: claim
+          value: decreased
+          value_type: trend
+        Metric_Volume_Trade_Base:
+          category: value
+          value: 1,013
+          value_type: number
+        Metric_Volume_Trade_Terminal:
+          category: value
+          value: '635'
+          value_type: number
+  - id: '3'
+    type: textBox
+    role: caption
+    text: '**Guangzhou Xiuhua Street** Area Segment Annual Mix (****-****) (Bar chart)'
+    layout:
+      x: 5.2
+      y: 3.65
+      width: 15.0
+      height: 0.9
+    text_binding:
+      kind: caption
+      render:
+        theme_key: Area Segment Annual Trend Analysis
+        function_key: Area Year Pivot
+        function_index: 0
+        view_label: Table
+      slots:
+        Geo_City_Name:
+          category: scope
+          value: Guangzhou
+          value_type: string
+          field: city
+        Geo_Block_Name:
+          category: scope
+          value: Xiuhua Street
+          value_type: string
+          field: block
+        Temporal_Start_Year:
+          category: scope
+          value: ''
+          value_type: number
+          field: start_year
+        Temporal_End_Year:
+          category: scope
+          value: ''
+          value_type: number
+          field: end_year
+        Chart_View_Label:
+          category: claim
+          field: presentation_type
+          value: Bar chart
+          value_type: string
+  - id: '4'
+    type: table
+    role: table
+    layout:
+      x: 0.84
+      y: 4.55
+      width: 23.75
+      height: 8.7
+    data: ./data/element_4.csv
