@@ -46,7 +46,12 @@ class WorkflowOverrides:
             analysis.
         slide_analysis_state: Replacement pre-validation analysis state used for
             trace-level stage evaluation.
+        verified_final_data_source: Optional final data source that bypasses
+            data-source validation while preserving the analysis state produced
+            by slide analysis.
         verified_analysis_state: Replacement post-validation analysis state.
+        data_source_issues: Optional scope issues to reuse in the detection
+            trace when `verified_analysis_state` is supplied.
         scope_dialogue: Confirmed scope dialogue paired with
             `verified_analysis_state`.
     """
@@ -55,7 +60,9 @@ class WorkflowOverrides:
     data_source_state: dict[str, Any] | None = None
     computation_logic: list[dict[str, Any]] | None = None
     slide_analysis_state: dict[str, Any] | None = None
+    verified_final_data_source: dict[str, Any] | None = None
     verified_analysis_state: dict[str, Any] | None = None
+    data_source_issues: list[dict[str, Any]] | None = None
     scope_dialogue: list[dict[str, str]] | None = None
 
 
@@ -108,7 +115,7 @@ class SlideReviewWorkflow:
                 overrides.slide_analysis_state or analysis_state
             )
             data_source_tool_log: list[dict[str, Any]] = []
-            data_source_issues: list[dict[str, Any]] = []
+            data_source_issues = list(overrides.data_source_issues or [])
             data_source_validation_log = {
                 "final_data_source": analysis_state["final_data_source"],
                 "tool_log": data_source_tool_log,
@@ -132,33 +139,46 @@ class SlideReviewWorkflow:
                     original_error=exc,
                 ) from exc
             slide_analysis_state = analysis_state
-            try:
-                data_source_result = await self.data_source_validation_agent.arun(
-                    analysis_state=analysis_state,
-                    client=client_agent,
+            if overrides is not None and overrides.verified_final_data_source is not None:
+                final_data_source = copy.deepcopy(
+                    overrides.verified_final_data_source
                 )
-            except Exception as exc:
-                raise WorkflowStageError(
-                    stage="data_source_validation",
-                    partial_result=partial,
-                    original_error=exc,
-                ) from exc
-            final_data_source = data_source_result["final_data_source"]
-            data_source_tool_log = data_source_result["tool_log"]
-            data_source_issues = data_source_result["detected_issues"]
-            analysis_state = update_data_source(analysis_state, final_data_source)
-            data_source_validation_log = {
-                "final_data_source": final_data_source,
-                "tool_log": data_source_tool_log,
-            }
-            scope_dialogue = [
-                {
-                    "assistant": issue["evidence"],
-                    "human": issue["client_response"],
+                data_source_tool_log = []
+                data_source_issues = list(overrides.data_source_issues or [])
+                analysis_state = update_data_source(analysis_state, final_data_source)
+                data_source_validation_log = {
+                    "final_data_source": final_data_source,
+                    "tool_log": data_source_tool_log,
                 }
-                for issue in data_source_issues
-                if issue["confirmed"]
-            ]
+                scope_dialogue = list(overrides.scope_dialogue or [])
+            else:
+                try:
+                    data_source_result = await self.data_source_validation_agent.arun(
+                        analysis_state=analysis_state,
+                        client=client_agent,
+                    )
+                except Exception as exc:
+                    raise WorkflowStageError(
+                        stage="data_source_validation",
+                        partial_result=partial,
+                        original_error=exc,
+                    ) from exc
+                final_data_source = data_source_result["final_data_source"]
+                data_source_tool_log = data_source_result["tool_log"]
+                data_source_issues = data_source_result["detected_issues"]
+                analysis_state = update_data_source(analysis_state, final_data_source)
+                data_source_validation_log = {
+                    "final_data_source": final_data_source,
+                    "tool_log": data_source_tool_log,
+                }
+                scope_dialogue = [
+                    {
+                        "assistant": issue["evidence"],
+                        "human": issue["client_response"],
+                    }
+                    for issue in data_source_issues
+                    if issue["confirmed"]
+                ]
         partial["slide_analysis_state"] = slide_analysis_state
         partial.update(
             {
